@@ -1,8 +1,8 @@
 name := "scaldi-jsr330"
 organization := "org.scaldi"
-version := "0.5.6-SNAPSHOT"
+version := "0.5.6"
 
-description := "scaldi-jsr330 - JSR 330 spect implementation for scaldi"
+description := "scaldi-jsr330 - JSR 330 spec implementation for scaldi"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
@@ -11,7 +11,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
 
 libraryDependencies ++= Seq(
-  "org.scaldi" %% "scaldi" % "0.5.5",
+  "org.scaldi" %% "scaldi" % "0.5.6",
   "javax.inject" % "javax.inject" % "1",
 
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
