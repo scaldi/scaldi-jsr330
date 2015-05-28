@@ -8,6 +8,7 @@ licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/
 
 scalaVersion := "2.11.6"
 scalacOptions ++= Seq("-deprecation", "-feature")
+testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
 
 libraryDependencies ++= Seq(
   "org.scaldi" %% "scaldi" % "0.5.5",
