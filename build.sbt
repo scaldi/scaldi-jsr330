@@ -1,6 +1,6 @@
 name := "scaldi-jsr330"
 organization := "org.scaldi"
-version := "0.5.7"
+version := "0.5.8-SNAPSHOT"
 
 description := "scaldi-jsr330 - JSR 330 spec implementation for scaldi"
 homepage := Some(url("http://scaldi.org"))
