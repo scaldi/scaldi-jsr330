@@ -1,7 +1,7 @@
 package scaldi.jsr330
 
 import java.lang.annotation.Annotation
-import java.lang.reflect.Constructor
+import java.lang.reflect.{Field, Constructor}
 import javax.inject.{Inject, Named, Provider => JProvider, Qualifier, Scope, Singleton}
 
 import scaldi._
@@ -48,8 +48,11 @@ case class AnnotationBinding(
       case (acc, t) =>
         val allFields = t.decls.filter(f => f.isTerm && f.asTerm.isVar)
         val allMethods = t.decls.filter(m => m.isMethod && !m.isConstructor)
+        val injectedFields = allFields filter isInjected
+        val injectedMethods = allMethods filter isInjected
+        val (withSetter, normalFields) = injectedFields map (_.asTerm) partition (_.asTerm.setter != NoSymbol)
 
-        acc :+ (allFields, allFields filter isInjected, allMethods, allMethods filter isInjected)
+        acc :+ (allFields, normalFields, allMethods, injectedMethods ++ withSetter.map(_.setter))
     }
 
     val fieldOverrides = all.flatMap(_._1).toSet flatMap ReflectionHelper.overrides
@@ -144,7 +147,6 @@ case class AnnotationBinding(
 
     ReflectionHelper.mirror.reflect(instance).reflectField(term) set injectSymbol(inj)(field -> fieldAnnotations)
   }
-
 
   private def injectMethod(inj: Injector, instance: AnyRef, method: Symbol) = {
     val (methodAnnotations, paramsAnnotations) = ReflectionHelper.methodParamsAnnotations(method.asMethod)
