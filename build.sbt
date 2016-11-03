@@ -1,20 +1,29 @@
 name := "scaldi-jsr330"
 organization := "org.scaldi"
-version := "0.5.9-SNAPSHOT"
+version := "0.5.9"
 
 description := "scaldi-jsr330 - JSR 330 spec implementation for scaldi"
 homepage := Some(url("http://scaldi.org"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.11.6"
+crossScalaVersions := Seq("2.11.8", "2.12.0")
+scalaVersion := "2.12.0"
+
+scalacOptions ++= {
+  if (scalaVersion.value startsWith "2.12")
+    Seq.empty
+  else
+    Seq("-target:jvm-1.7")
+}
+
 scalacOptions ++= Seq("-deprecation", "-feature")
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
 
 libraryDependencies ++= Seq(
-  "org.scaldi" %% "scaldi" % "0.5.7",
+  "org.scaldi" %% "scaldi" % "0.5.8",
   "javax.inject" % "javax.inject" % "1",
 
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scalatest" %% "scalatest" % "3.0.0" % "test",
   "com.novocode" % "junit-interface" % "0.11" % "test",
   "javax.inject" % "javax.inject-tck" % "1" % "test"
 )
