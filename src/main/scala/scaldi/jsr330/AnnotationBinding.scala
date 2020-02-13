@@ -1,7 +1,7 @@
 package scaldi.jsr330
 
 import java.lang.annotation.Annotation
-import java.lang.reflect.{Field, Constructor}
+import java.lang.reflect.Constructor
 import javax.inject.{Inject, Named, Provider => JProvider, Qualifier, Scope, Singleton}
 
 import scaldi._
@@ -79,9 +79,9 @@ case class AnnotationBinding(
 
   private var instance: Option[AnyRef] = None
 
-  override def isCacheable = singleton && condition.isEmpty
+  override def isCacheable: Boolean = singleton && condition.isEmpty
 
-  override def get(lifecycleManager: LifecycleManager) = {
+  override def get(lifecycleManager: LifecycleManager): Option[AnyRef] = {
     val (instance, isNew) = getInstance()
 
     for {
@@ -92,9 +92,9 @@ case class AnnotationBinding(
     instance
   }
 
-  override def isEager = eager
+  override def isEager: Boolean = eager
 
-  private def getInstance() = {
+  private def getInstance(): (Option[AnyRef], Boolean) = {
     if (singleton)
       if (instance.isDefined) instance -> false
       else {
@@ -114,7 +114,7 @@ case class AnnotationBinding(
     }
   }
 
-  def initNewInstance() = {
+  def initNewInstance(): AnyRef = {
     val inj = injector()
     val inst = creator(inj)
 
@@ -141,9 +141,9 @@ case class AnnotationBinding(
     jConstructor.newInstance(actualParams: _*).asInstanceOf[AnyRef]
   }
 
-  private def injectField(inj: Injector, instance: AnyRef, field: Symbol) = {
+  private def injectField(inj: Injector, instance: AnyRef, field: Symbol): Unit = {
     val term = field.asTerm
-    val fieldAnnotations = ReflectionHelper.fieldAnnotations(term)
+    val fieldAnnotations = ReflectionHelper.fieldAnnotations(term).toList
 
     ReflectionHelper.mirror.reflect(instance).reflectField(term) set injectSymbol(inj)(field -> fieldAnnotations)
   }
@@ -161,7 +161,7 @@ case class AnnotationBinding(
     val it = s.typeSignature.resultType
 
     if (it <:< typeOf[JProvider[_]]) {
-      val actualType = it.typeArgs(0)
+      val actualType = it.typeArgs.head
       val identifiers = TypeTagIdentifier(actualType) :: annotationIds(annotations)
 
       ScaldiProvider(() => inj.getBinding(identifiers) flatMap (_.get) getOrElse Injectable.noBindingFound(identifiers))
@@ -202,7 +202,7 @@ object AnnotationBinding {
       val injectedConstructors = allConstructors filter isInjected
       def defaultConstructor = allConstructors find (_.getParameterTypes.isEmpty)
 
-      if (injectedConstructors.size > 1)
+      if (injectedConstructors.length > 1)
         throw new InjectException(s"Type `$t` defines more than one injected constructor.")
 
       injectedConstructors.headOption orElse defaultConstructor
@@ -215,5 +215,5 @@ object AnnotationBinding {
 }
 
 case class ScaldiProvider[T](impl: () => T) extends JProvider[T] {
-  def get() = impl()
+  def get(): T = impl()
 }
