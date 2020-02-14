@@ -9,7 +9,7 @@ class OnDemandAnnotationInjector extends MutableInjectorUser with InjectorWithLi
   private var bindings: List[BindingWithLifecycle] = Nil
   private var lifecycleManager: Option[LifecycleManager] = None
 
-  def getBindingInternal(identifiers: List[Identifier]) =
+  def getBindingInternal(identifiers: List[Identifier]): Option[BindingWithLifecycle] =
     identifiers
       .collect {case TypeTagIdentifier(tpe) => tpe}
       .map (tpe => tpe -> AnnotationBinding.extractIdentifiers(tpe)) match {
@@ -33,9 +33,9 @@ class OnDemandAnnotationInjector extends MutableInjectorUser with InjectorWithLi
       case _ => None
     }
 
-  def getBindingsInternal(identifiers: List[Identifier]) = getBindingInternal(identifiers).toList
+  def getBindingsInternal(identifiers: List[Identifier]): List[BindingWithLifecycle] = getBindingInternal(identifiers).toList
 
-  protected def init(lifecycleManager: LifecycleManager) = {
+  protected def init(lifecycleManager: LifecycleManager): () => Unit = {
     this.lifecycleManager = Some(lifecycleManager)
 
     () => ()
