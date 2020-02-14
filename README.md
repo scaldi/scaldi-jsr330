@@ -1,6 +1,6 @@
 ## dipendi-jsr330
 
-[![Build Status](https://travis-ci.org/protenus/dipendi-jsr330.svg)](https://travis-ci.org/protenus/dipendi-jsr330)
+[![Build Status](https://travis-ci.org/protenus/dipendi-jsr330.svg?branch=master)](https://travis-ci.org/protenus/dipendi-jsr330)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.protenus/dipendi-jsr330_2.13/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.protenus/dipendi-jsr330_2.13)
 
 
