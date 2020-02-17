@@ -2,11 +2,12 @@ package scaldi.jsr330
 
 import javax.inject.Inject
 
-import org.scalatest.{Matchers, WordSpec}
 import scaldi.Injectable._
 import scaldi.{InjectException, Injectable, Injector, Module}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class JSR330QualifierSpec extends WordSpec with Matchers {
+class JSR330QualifierSpec extends AnyWordSpec with Matchers {
   "JSR 330" should {
     "support complex qualifiers with attributes" in {
       implicit val inj = new Module {
