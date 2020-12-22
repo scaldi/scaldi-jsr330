@@ -14,7 +14,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-v")
 
 libraryDependencies ++= Seq(
-  "org.scaldi" %% "scaldi" % "0.6.0",
+  "org.scaldi" %% "scaldi" % "0.6.1",
   "javax.inject" % "javax.inject" % "1",
 
   "org.scalatest" %% "scalatest" % "3.2.3" % Test,
