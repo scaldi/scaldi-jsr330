@@ -5,9 +5,9 @@ description := "scaldi-jsr330 - JSR 330 spec implementation for scaldi"
 homepage := Some(url("https://github.com/scaldi/scaldi-jsr330"))
 licenses := Seq("Apache License, ASL Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0"))
 
-scalaVersion := "2.13.4"
-crossScalaVersions := Seq("2.13.5", "2.12.10", "2.13.4")
-mimaPreviousArtifacts := Set("0.6.0").map(organization.value %% name.value % _)
+scalaVersion := "2.13.5"
+crossScalaVersions := Seq("2.11.12", "2.12.13", "2.13.5")
+mimaPreviousArtifacts := Set("0.6.0", "0.6.1").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 
 libraryDependencies ++= Seq(
