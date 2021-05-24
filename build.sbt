@@ -14,7 +14,7 @@ libraryDependencies ++= Seq(
   "org.scaldi" %% "scaldi" % "0.6.1",
   "javax.inject" % "javax.inject" % "1",
 
-  "org.scalatest" %% "scalatest" % "3.2.8" % Test,
+  "org.scalatest" %% "scalatest" % "3.2.9" % Test,
   "com.novocode" % "junit-interface" % "0.11" % Test,
   "javax.inject" % "javax.inject-tck" % "1" % Test
 )
