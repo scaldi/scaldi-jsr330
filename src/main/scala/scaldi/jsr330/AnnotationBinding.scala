@@ -23,9 +23,8 @@ case class AnnotationBinding(
   import scaldi.jsr330.AnnotationBinding._
 
   private val tpe = instanceOrType match {
-    case Left(inst) =>
-      ReflectionHelper.mirror.classSymbol(inst.getClass).toType
-    case Right(t) => t
+    case Left(inst) => ReflectionHelper.mirror.classSymbol(inst.getClass).toType
+    case Right(t)   => t
   }
 
   private val creator = {
@@ -46,22 +45,19 @@ case class AnnotationBinding(
       .map(_.asType.toType)
       .reverse
       .foldLeft(List[(Iterable[Symbol], Iterable[Symbol], Iterable[Symbol], Iterable[Symbol])]()) { case (acc, t) =>
-        val allFields       = t.decls.filter(f => f.isTerm && f.asTerm.isVar)
-        val allMethods      = t.decls.filter(m => m.isMethod && !m.isConstructor)
-        val injectedFields  = allFields filter isInjected
-        val injectedMethods = allMethods filter isInjected
-        val (withSetter, normalFields) =
-          injectedFields map (_.asTerm) partition (_.asTerm.setter != NoSymbol)
+        val allFields                  = t.decls.filter(f => f.isTerm && f.asTerm.isVar)
+        val allMethods                 = t.decls.filter(m => m.isMethod && !m.isConstructor)
+        val injectedFields             = allFields filter isInjected
+        val injectedMethods            = allMethods filter isInjected
+        val (withSetter, normalFields) = injectedFields map (_.asTerm) partition (_.asTerm.setter != NoSymbol)
 
         acc :+ (allFields, normalFields, allMethods, injectedMethods ++ withSetter.map(_.setter))
       }
 
-    val fieldOverrides =
-      all.flatMap(_._1).toSet flatMap ReflectionHelper.overrides
-    val methodOverrides =
-      all.flatMap(_._3).toSet flatMap ReflectionHelper.overrides
+    val fieldOverrides  = all.flatMap(_._1).toSet flatMap ReflectionHelper.overrides
+    val methodOverrides = all.flatMap(_._3).toSet flatMap ReflectionHelper.overrides
 
-    all map { case (af, f, am, m) =>
+    all map { case (_, f, _, m) =>
       (
         f filterNot fieldOverrides.contains,
         m filterNot methodOverrides.contains
@@ -88,6 +84,7 @@ case class AnnotationBinding(
   private val singleton                = scopes exists (_ =:= typeOf[Singleton])
   private var instance: Option[AnyRef] = None
   override def isCacheable: Boolean    = singleton && condition.isEmpty
+  override def isEager: Boolean        = eager
 
   override def get(lifecycleManager: LifecycleManager): Option[AnyRef] = {
     val (instance, isNew) = getInstance()
@@ -99,10 +96,9 @@ case class AnnotationBinding(
     instance
   }
 
-  override def isEager: Boolean = eager
-
+  /** Retrieve and possibly create the bound value. */
   private def getInstance(): (Option[AnyRef], Boolean) =
-    if (singleton)
+    if (singleton) {
       if (instance.isDefined) instance -> false
       else {
         this.synchronized {
@@ -114,7 +110,7 @@ case class AnnotationBinding(
           }
         }
       }
-    else {
+    } else {
       val inst = initNewInstance()
       Some(bindingConverter map (_(inst)) getOrElse inst) -> true
     }

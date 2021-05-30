@@ -11,13 +11,14 @@ scalaVersion := "2.13.6"
 crossScalaVersions := Seq("2.11.12", "2.12.13", "2.13.6")
 mimaPreviousArtifacts := Set("0.6.0").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
+crossPaths := false
 
 libraryDependencies ++= Seq(
   "org.scaldi"    %% "scaldi"           % "0.6.1",
   "javax.inject"   % "javax.inject"     % "1",
-  "org.scalatest" %% "scalatest"        % "3.2.9" % Test,
-  "com.novocode"   % "junit-interface"  % "0.11"  % Test,
-  "javax.inject"   % "javax.inject-tck" % "1"     % Test
+  "org.scalatest" %% "scalatest"        % "3.2.9"  % Test,
+  "com.github.sbt" % "junit-interface"  % "0.13.2" % Test,
+  "javax.inject"   % "javax.inject-tck" % "1"      % Test
 )
 
 git.remoteRepo := "git@github.com:scaldi/scaldi-jsr330.git"

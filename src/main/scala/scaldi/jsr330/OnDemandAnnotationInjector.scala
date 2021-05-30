@@ -25,6 +25,7 @@ class OnDemandAnnotationInjector
                 resultingIdentifiers
               )
 
+              // doesn't appear possible for `isEager` to be true, remove this code?
               if (binding.isEager) {
                 lifecycleManager map binding.get getOrElse (throw new InjectException(
                   "Attempt to inject binding before OnDemandAnnotationInjector was initialized"
@@ -32,7 +33,6 @@ class OnDemandAnnotationInjector
               }
 
               bindings = bindings :+ binding
-
               Some(binding)
             }
           }
