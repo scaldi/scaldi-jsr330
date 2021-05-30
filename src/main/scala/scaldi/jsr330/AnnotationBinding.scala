@@ -96,12 +96,16 @@ case class AnnotationBinding(
     instance
   }
 
+  private val initLock = new Object
+
   /** Retrieve and possibly create the bound value. */
   private def getInstance(): (Option[AnyRef], Boolean) =
     if (singleton) {
       if (instance.isDefined) instance -> false
       else {
-        this.synchronized {
+        // 'instance' is the only state used/updated so have a dedicated lock, which will avoid competition for the
+        // `this` lock, used by lazy val computations
+        initLock.synchronized {
           if (instance.isDefined) instance -> false
           else {
             val inst = initNewInstance()
