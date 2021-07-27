@@ -1,14 +1,14 @@
-name := "scaldi-jsr330"
+name         := "scaldi-jsr330"
 organization := "org.scaldi"
 
 description := "scaldi-jsr330 - JSR 330 spec implementation for scaldi"
-homepage := Some(url("https://github.com/scaldi/scaldi-jsr330"))
+homepage    := Some(url("https://github.com/scaldi/scaldi-jsr330"))
 licenses := Seq(
   "Apache License, ASL Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 )
 
-scalaVersion := "2.13.6"
-crossScalaVersions := Seq("2.11.12", "2.12.14", "2.13.6")
+scalaVersion          := "2.13.6"
+crossScalaVersions    := Seq("2.11.12", "2.12.14", "2.13.6")
 mimaPreviousArtifacts := Set("0.6.0").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 crossPaths := false
@@ -25,13 +25,13 @@ git.remoteRepo := "git@github.com:scaldi/scaldi-jsr330.git"
 
 // Publishing
 
-pomIncludeRepository := (_ => false)
+pomIncludeRepository   := (_ => false)
 Test / publishArtifact := false
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowScalaVersions := crossScalaVersions.value
 ThisBuild / githubWorkflowJavaVersions ++= Seq("adopt@1.11")
 ThisBuild / githubWorkflowPublishTargetBranches := Seq(RefPredicate.StartsWith(Ref.Tag("v")))
-ThisBuild / githubWorkflowBuildPreamble := Seq(WorkflowStep.Sbt(List("scalafmtCheckAll")))
+ThisBuild / githubWorkflowBuildPreamble         := Seq(WorkflowStep.Sbt(List("scalafmtCheckAll")))
 ThisBuild / githubWorkflowPublish := Seq(
   WorkflowStep.Sbt(
     List("ci-release"),
@@ -57,7 +57,7 @@ ThisBuild / shellPrompt := { state =>
 
 // Additional meta-info
 
-startYear := Some(2015)
+startYear            := Some(2015)
 organizationHomepage := Some(url("https://github.com/scaldi"))
 scmInfo := Some(
   ScmInfo(
