@@ -9,5 +9,5 @@
 SBT Configuration:
 
 ```sbtshell
-libraryDependencies += "org.scaldi" %% "scaldi-jsr330" % "0.6.0"
+libraryDependencies += "org.scaldi" %% "scaldi-jsr330" % x.y.z
 ```
