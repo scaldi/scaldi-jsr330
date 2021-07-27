@@ -2,8 +2,7 @@ package scaldi.jsr330
 
 import scaldi._
 
-/** Injector that creates JSR 330 compliant bindings on-demand (when they are injected)
-  */
+/** Injector that creates JSR 330 compliant bindings on-demand (when they are injected) */
 class OnDemandAnnotationInjector
     extends MutableInjectorUser
     with InjectorWithLifecycle[OnDemandAnnotationInjector]

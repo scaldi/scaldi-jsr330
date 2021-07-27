@@ -7,6 +7,7 @@ import java.lang.annotation.Annotation
 import java.lang.reflect.Constructor
 import javax.inject.{Inject, Named, Qualifier, Scope, Singleton, Provider => JProvider}
 import scala.reflect.runtime.universe._
+import scaldi.util.ReflectionHelper._
 
 /** Binding for JSR 330 compliant types. */
 case class AnnotationBinding(
@@ -174,7 +175,7 @@ case class AnnotationBinding(
     val (s, annotations) = symbolWithAnnotations
     val it               = s.typeSignature.resultType
 
-    if (it <:< typeOf[JProvider[_]]) {
+    if (it safe_<:< typeOf[JProvider[_]]) {
       val actualType  = it.typeArgs.head
       val identifiers = TypeTagIdentifier(actualType) :: annotationIds(annotations)
 
@@ -194,8 +195,7 @@ case class AnnotationBinding(
 
 object AnnotationBinding {
 
-  /** Extracts a list of identifiers from JSR 330 compliant type
-    */
+  /** Extracts a list of identifiers from JSR 330 compliant type */
   def extractIdentifiers(tpe: Type): List[Identifier] =
     findConstructor(tpe) map (_ => TypeTagIdentifier(tpe) :: Nil) getOrElse Nil
 
