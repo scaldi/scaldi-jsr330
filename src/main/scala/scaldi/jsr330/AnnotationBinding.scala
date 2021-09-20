@@ -5,7 +5,7 @@ import scaldi.util.ReflectionHelper
 
 import java.lang.annotation.Annotation
 import java.lang.reflect.Constructor
-import javax.inject.{Inject, Named, Qualifier, Scope, Singleton, Provider => JProvider}
+import javax.inject.{Inject, Named, Provider => JProvider, Qualifier, Scope, Singleton}
 import scala.reflect.runtime.universe._
 import scaldi.util.ReflectionHelper._
 
