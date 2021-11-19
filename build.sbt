@@ -7,8 +7,8 @@ licenses := Seq(
   "Apache License, ASL Version 2.0" -> url("https://www.apache.org/licenses/LICENSE-2.0")
 )
 
-scalaVersion          := "2.13.6"
-crossScalaVersions    := Seq("2.11.12", "2.12.15", "2.13.6")
+scalaVersion          := "2.13.7"
+crossScalaVersions    := Seq("2.11.12", "2.12.15", "2.13.7")
 mimaPreviousArtifacts := Set("0.6.0", "0.6.1").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 
