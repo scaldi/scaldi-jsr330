@@ -15,7 +15,7 @@ scalacOptions ++= Seq("-deprecation", "-feature")
 libraryDependencies ++= Seq(
   "org.scaldi"    %% "scaldi"           % "0.6.2",
   "javax.inject"   % "javax.inject"     % "1",
-  "org.scalatest" %% "scalatest"        % "3.2.10" % Test,
+  "org.scalatest" %% "scalatest"        % "3.2.11" % Test,
   "com.github.sbt" % "junit-interface"  % "0.13.3" % Test,
   "javax.inject"   % "javax.inject-tck" % "1"      % Test
 )
