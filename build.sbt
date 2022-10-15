@@ -8,7 +8,7 @@ licenses := Seq(
 )
 
 scalaVersion          := "2.13.8"
-crossScalaVersions    := Seq("2.11.12", "2.12.15", "2.13.8")
+crossScalaVersions    := Seq("2.11.12", "2.12.17", "2.13.8")
 mimaPreviousArtifacts := Set("0.6.0", "0.6.1").map(organization.value %% name.value % _)
 scalacOptions ++= Seq("-deprecation", "-feature")
 
